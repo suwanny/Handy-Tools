@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# MarkDown Viewer
+#
+# Download Markdown.pl from http://daringfireball.net/projects/markdown/
+# Markdown CSS from http://kevinburke.bitbucket.org/markdowncss
+# 
+
+INPUT=$1
+MARKDOWN=/usr/local/bin/Markdown.pl
+TEMPHTML=/tmp/mdview.html
+TEMPMD=/tmp/mdview.md
+LINKCSS="<link href=\"http://kevinburke.bitbucket.org/markdowncss/markdown.css\" rel=\"stylesheet\"></link>"
+
+if [ $# -eq 0 ] ; then
+  echo "$0 input.md"
+  exit 1
+fi
+
+if [ ! -e "$INPUT" ] ; then
+  echo "$INPUT is not existing!"
+  exit 1
+fi
+
+
+echo $LINKCSS > $TEMPMD
+cat $INPUT >> $TEMPMD
+
+$MARKDOWN $TEMPMD > $TEMPHTML && open $TEMPHTML
+
